@@ -1,0 +1,34 @@
+﻿#pragma kernel initialize
+#pragma kernel move
+
+struct particle
+{
+    float2 pos;
+    float angle;
+};
+
+RWStructuredBuffer<particle> particle_buffer;
+RWTexture2D<float4> trail_texture;
+float2 trail_dimension;
+int number_of_particles;
+
+[numthreads(8,1,1)]
+void initialize(const uint3 id : SV_DispatchThreadID)
+{
+    float x = ((float)id.x / number_of_particles) * trail_dimension.x;
+    float y = 0;
+
+    particle_buffer[id.x].pos = float2(x, y);
+    particle_buffer[id.x].angle = 1.5;
+}
+
+[numthreads(8,1,1)]
+void move(const uint3 id : SV_DispatchThreadID)
+{
+    const float2 pos = particle_buffer[id.x].pos;
+    const float angle = particle_buffer[id.x].angle;
+    const float2 next_pos = pos + float2(cos(angle), sin(angle)) * 0.2;
+
+    particle_buffer[id.x].pos = next_pos;
+    trail_texture[next_pos] = float4(1, 1, 1, 1);
+}

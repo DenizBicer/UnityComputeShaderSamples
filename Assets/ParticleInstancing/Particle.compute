@@ -1,0 +1,35 @@
+﻿#pragma kernel initialize
+
+struct particle
+{
+    float3 position;
+};
+
+uint wang_hash(uint seed)
+{
+    seed = (seed ^ 61) ^ (seed >> 16);
+    seed *= 9;
+    seed = seed ^ (seed >> 4);
+    seed *= 0x27d4eb2d;
+    seed = seed ^ (seed >> 15);
+    return seed;
+}
+
+float wang_float(uint hash)
+{
+    return hash / float(0x7FFFFFFF) / 2.0;
+}
+
+RWStructuredBuffer<particle> particle_buffer;
+int number_of_particles;
+
+[numthreads(8,1,1)]
+void initialize(const uint3 id : SV_DispatchThreadID)
+{
+    float x = wang_float(wang_hash(id.x));
+    float y = wang_float(wang_hash(id.x + 1));
+    float z = wang_float(wang_hash(id.x + 2));
+    
+    particle_buffer[id.x].position = float3(x, y, z);
+}
+
