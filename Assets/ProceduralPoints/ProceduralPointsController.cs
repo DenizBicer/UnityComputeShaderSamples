@@ -1,12 +1,12 @@
 ﻿using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace ParticleInstancing
+namespace ProceduralPoints
 {
     /// <summary>
     /// Renders point instances that are positioned by the compute shader "Particle.compute"
     /// </summary>
-    public class ParticleInstanceController : MonoBehaviour
+    public class ProceduralPointsController : MonoBehaviour
     {    
         [SerializeField]
         private ComputeShader shader = default;

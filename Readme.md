@@ -10,7 +10,7 @@ I  remember first time creating a compute shader and not knowing what to do with
 
 
 
-#### Particle Instancing
+#### Procedural Points
 
 An example to position points in a compute shader and render them procedurally.
 
@@ -23,3 +23,4 @@ An example of manipulating a render texture in every frame. Particles are moved 
 
 
 I hope these samples will help someone! 
+
